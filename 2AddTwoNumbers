@@ -1,0 +1,74 @@
+'''
+You are given two linked lists representing two non-negative numbers. 
+The digits are stored in reverse order and each of their nodes contain a single digit. 
+Add the two numbers and return it as a linked list.
+
+
+Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+Output: 7 -> 0 -> 8
+'''
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    # @return a ListNode
+    def addTwoNumbers(self, l1, l2):
+		one_flag = 0
+		prev = None
+		head = None
+		while (l1 is not None or l2 is not None):
+			val_1 = l1.val if l1 is not None else 0
+			val_2 = l2.val if l2 is not None else 0
+			sum = val_1 + val_2
+			if one_flag == 1:
+				sum = sum + 1
+			if sum >= 10:
+				sum = sum - 10
+				one_flag = 1
+			else:
+				one_flag = 0
+			r = ListNode(sum)
+			if prev is None:
+				head = r
+			else:
+				prev.next = r
+			prev = r
+			l1 = l1.next if l1 is not None and l1.next is not None else None
+			l2 = l2.next if l2 is not None and l2.next is not None else None	
+		if one_flag == 1:
+			next = ListNode(1)
+			r.next = next
+		else:
+			r.next = None
+		return(head)
+
+		
+class Solution:
+    # @return a ListNode
+    def addTwoNumbers(self, l1, l2):
+		def rec(l1, l2, carry):
+			if l1 is None and l2 is None:
+				if carry == 1:
+					return ListNode(1)
+				else:
+					return None
+			val_1 = l1.val if l1 is not None else 0
+			val_2 = l2.val if l2 is not None else 0
+			sum = val_1 + val_2 + carry
+			if sum >= 10:
+				sum = sum - 10
+				new_carry = 1
+			else:
+				new_carry = 0
+			curr = ListNode(sum)
+			l1 = l1.next if l1 is not None else None
+			l2 = l2.next if l2 is not None else None			
+			next = rec(l1, l2, new_carry)
+			curr.next = next
+			return curr
+		head = rec(l1,l2, 0)
+		return head
