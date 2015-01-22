@@ -37,3 +37,47 @@ class Solution:
 				bag.remove(b)
 		return 0
 		
+# still		
+class Solution:
+    # @return an integer
+    def lengthOfLongestSubstring(self, s):
+		if len(s) <=1 :
+			return len(s)
+		temp = [s[0]]
+		longest = 1
+		for i in s[1:]:
+			new_temp = []
+			while len(temp) <> 0 :
+				d = temp.pop()
+				if i in d:
+					longest = max(len(d), longest)
+				else:
+					new_temp.append(d + i)
+			new_temp.append(i)
+			temp = new_temp
+		while len(temp) <> 0 :
+			d = temp.pop()
+			if i in d:
+				longest = max(len(d), longest)	
+		return longest
+
+
+#finally
+class Solution:
+    # @return an integer
+    def lengthOfLongestSubstring(self, s):
+		longest = 0
+		i = 0
+		j = 0
+		while i < len(s):
+			while j < len(s):
+				if s[j] not in s[i:j]:
+					j += 1
+				else:
+					longest = max(longest, j - i)
+					break
+			if j == len(s):
+				longest = max(longest, j - i)
+				return longest
+			i = i + s[i:j].index(s[j]) + 1
+		return longest
